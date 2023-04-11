@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   let deck = [];
   let playerHand = [];
-  let amountDealt = 7;
-  let deckList = document.getElementById("deck-list");
+  let amountDealt = 0;
+  let deckVisual = document.getElementById("deck-visual");
   let handList = document.getElementById("hand-list");
   const cardSuits = ["Hearts", "Diamonds", "Clubs", "Spades"];
   const cardValues = [
@@ -21,27 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
     "K",
   ];
   let drawPile = deck.length;
-  let i = 0;
-  let j = 0;
 
-  updateDeckList = () => {
-    let ul = document.createElement("ul");
-
-    for (let card of deck) {
-      let li = document.createElement("li");
-      li.innerText = card.value + " of " + card.suit;
-      ul.appendChild(li);
-    }
-
-    deckList.innerHTML = "";
-    deckList.appendChild(ul);
+  updateDeckVisual = () => {
+    let scaleFactor = 1 + (deck.length / 52) * 0.2;
+    deckVisual.style.transform = `scale(${scaleFactor})`;
   };
 
   updateHandList = () => {
     handList.innerHTML = "";
   
     for (let card of playerHand) {
-      console.log(card);
       let div = document.createElement("div");
       div.classList.add("card");
       div.classList.add(card.suit.toLowerCase());
@@ -59,22 +48,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
   
-
   generateDeck = () => {
     if (deck.length < 1) {
-      while (i < cardSuits.length) {
-        while (j < cardValues.length) {
-          card = { suit: cardSuits[i], value: cardValues[j] };
+      for (let i = 0; i < cardSuits.length; i++) {
+        for (let j = 0; j < cardValues.length; j++) {
+          let card = { suit: cardSuits[i], value: cardValues[j] };
           deck.push(card);
-          j++;
         }
-        j = 0;
-        i++;
       }
     }
+    playerHand = [];
     drawPile = deck.length;
-    i = 0;
-    updateDeckList();
+    updateDeckVisual();
     updateHandList();
   };
 
@@ -91,26 +76,57 @@ document.addEventListener("DOMContentLoaded", () => {
         deck[currentIndex],
       ];
     }
-    updateDeckList();
+    updateDeckVisual();
     updateHandList();
     return deck;
   };
 
-  dealHand = () => {
-    if (drawPile < 1) {
-      console.log("All cards have been dealt");
-    } else if (amountDealt >= drawPile) {
-      while (deck.length > 0) {
-        playerHand.push(deck.shift());
-      }
-    } else {
-      for (var q = 0; q < amountDealt; q++) {
-        playerHand.push(deck.shift());
-      }
+dealHand = () => {
+  if (drawPile < 1) {
+    console.log("All cards have been dealt");
+  } else if (amountDealt >= drawPile) {
+    while (deck.length > 0) {
+      let card = deck.shift();
+      let cardDiv = createCardDiv(card);
+      setTimeout(() => {
+        handList.appendChild(cardDiv);
+        cardDiv.classList.add("card-deal");
+        setTimeout(() => cardDiv.classList.remove("card-deal"), 500);
+      }, 0);
+      playerHand.push(card);
     }
-    updateDeckList();
-    updateHandList();
-    drawPile = deck.length;
+  } else {
+    for (var q = 0; q < amountDealt; q++) {
+      let card = deck.shift();
+      let cardDiv = createCardDiv(card);
+      setTimeout(() => {
+        handList.appendChild(cardDiv);
+        cardDiv.classList.add("card-deal");
+        setTimeout(() => cardDiv.classList.remove("card-deal"), 500);
+      }, 500 * q);
+      playerHand.push(card);
+    }
+  }
+  updateDeckVisual();
+  drawPile = deck.length;
+};
+  
+  createCardDiv = (card) => {
+    let div = document.createElement("div");
+    div.classList.add("card");
+    div.classList.add(card.suit.toLowerCase());
+  
+    let front = document.createElement("div");
+    front.classList.add("front");
+    front.innerText = card.value + " of " + card.suit;
+  
+    let back = document.createElement("div");
+    back.classList.add("back");
+  
+    div.appendChild(front);
+    div.appendChild(back);
+  
+    return div;
   };
 
   drawAmount = () => {

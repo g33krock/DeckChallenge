@@ -1,9 +1,20 @@
+body{
+  background-image: url('https://img.freepik.com/free-photo/green-fabric-with-white-tag_1340-26021.jpg?w=900&t=st=1681185306~exp=1681185906~hmac=8ce3bc31ecd83d990e01db67dc582bb1a3ea7a8d154b7596c1319f04e0e61dbb');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+label{
+  color: white
+}
+
 #container {
   display: grid;
   grid-template-areas:
     "control control"
     "deck hand";
-    grid-template-columns: auto auto;
+  grid-template-columns: auto auto;
+  row-gap: 10px;
 }
 
 #control-panel {
@@ -16,9 +27,16 @@
   grid-template-columns: auto auto auto auto auto auto auto auto auto;
 }
 
-#deck-list {
+#deck-visual {
   grid-area: deck;
   grid-template-areas: "auto";
+  background-image: url('https://www.kindpng.com/picc/m/153-1537437_playing-card-back-png-transparent-png.png');
+  background-size: cover;
+  width: 100px;
+  height: 140px;
+  border-radius: 10px;
+  position: relative;
+  margin: 5px;
 }
 
 .card {
@@ -30,6 +48,12 @@
   margin: 5px;
   transform-style: preserve-3d;
   animation: flip 1s ease-in-out;
+  background-color: blanchedalmond;
+}
+
+.card.hearts,
+.card.diamonds {
+  color: red;
 }
 
 .card.hearts:before,
@@ -78,4 +102,17 @@
   position: absolute;
   top: 20px;
   left: 10px;
+}
+
+.card-deal {
+  animation: deal 1s ease-in-out;
+}
+
+@keyframes deal {
+  0% {
+    transform: translateY(-200px) rotateX(-90deg);
+  }
+  100% {
+    transform: translateY(0px) rotateX(0deg);
+  }
 }

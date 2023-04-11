@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="deckchallenge.js"></script>
-    <link rel="stylesheet" href="styles.css" />
-    <title>Deck of Cards</title>
-  </head>
-  <body>
-    <div id="container">
-      <div id="control-panel">
-        <button onclick="generateDeck()">Generate Deck</button>
-        <button onclick="shuffleDeck()">Shuffle Deck</button></br></br>
-        <label>Deal Amount </label><input type="number" id="inputNumber" oninput="drawAmount()" />
-        <button onclick="dealHand()">Deal Hand</button>
-      </div>
-      <div id="deck-list"></div>
-      <div id="hand-list"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="deckchallenge.js" defer></script>
+  <link rel="stylesheet" href="styles.css" />
+  <title>Deck of Cards</title>
+</head>
+<body>
+  <div id="container">
+    <div id="control-panel">
+      <button onclick="generateDeck()">Generate Deck</button>
+      <button onclick="shuffleDeck()">Shuffle Deck</button></br></br>
+      <label>Deal Amount </label><input value=0 type="number" id="inputNumber" oninput="drawAmount()" />
+      <button onclick="dealHand()">Deal Hand</button>
     </div>
-  </body>
+    <div id="deck-visual"></div>
+    <div id="hand-list"></div>
+  </div>
+</body>
 </html>
